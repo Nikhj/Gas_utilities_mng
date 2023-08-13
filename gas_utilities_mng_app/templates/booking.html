@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    
+    <div class="container mt-5">
+            <!-- booking button -->
+            <div style="display: flex;">
+                <div class="form-groupc col-md-4" style="display: flex;">
+                    <label for="customer_name" style="margin-right: 2%;">Customer Name : </label>
+                    <p id="customer_name">{{customer_name}}</p>
+                </div>
+                <div class="form-group col-md-4" style="display: flex;">
+                    <label for="connction_no" style="margin-right: 2%;" >Connection No : </label>
+                    <p>{{connection_no}}</p>
+                </div>
+                <div class="form-group col-md-4">
+            <button type="button" class="btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                Book Gas
+              </button>
+            </div>
+            </div>
+              <!-- Modal -->
+              <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="distributorName">Distributor Name</label>
+                            <input type="text" value="{{distributor_name}}" name="distributor_name"  class="form-control" id="distributorName"  disabled>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="customerName">Customer Name</label>
+                                <input type="text" value="{{customer_name}}" name="customer_name" class="form-control" id="customerName" disabled>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="customerNo">Connection No.</label>
+                                <input type="text" value="{{connection_no}}" name="connction_no" class="form-control" id="connction_no" disabled>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="totalAmount">Total Amount</label>
+                                <input type="text" name="total_amount" value="850" class="form-control" id="totalAmount" disabled>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="subsidyAmount">Subsidy Amount</label>
+                                <input type="text" name="subsidy_amount" value="250" class="form-control" id="subsidyAmount" disabled>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label for="bookingDate">Booking Date</label>
+                            <input type="date" name="booing_date" class="form-control" id="bookingDate">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-primary" onclick="book_gas()">Book</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+
+        <table class="table table-striped table-hover table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>Booking No</th>
+                <th>Booking Date</th>
+                <th>Total Amount</th>
+                <th>Subsidy</th>
+                <th>Delivery Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody id="tblbody">
+           
+        </tbody>
+    </table>
+    </div>
+
+
+<script>
+    $(document).ready(function(){
+        get_booing_details()
+    })
+
+    function get_booing_details(){
+        $("#tblbody").empty();
+        var connction_no = $("#connction_no").val()
+        $.ajax({
+            url:'{% url "booking_data" %}',
+            type: "GET",
+            data: {"connection_no":connction_no},
+            success: function(resonse){
+                $.each(resonse,function(index,item){
+                    $("#tblbody").append("<tr><td>"+item[0]+"</td><td>"+item[1]+"</td><td>"+item[2]+"</td><td>"+item[3]+"</td><td>"+item[3]+"</td><td>"+item[5]+"</td></tr>")
+                })
+            }
+        })
+    }
+
+
+    function book_gas(){
+
+        var distributorName = $("#distributorName").val();
+        var customerName = $("#customerName").val();
+        var connction_no = $("#connction_no").val();
+        var bookingDate = $("#bookingDate").val();
+        var totalAmount = $("#totalAmount").val();
+        var subsidyAmount = $("#subsidyAmount").val();
+        
+        console.log("conn no. ",connction_no);
+        $.ajax({
+            url:'{% url "booking_data" %}',
+            type:"POST",
+            data:{
+                "connection_no": connction_no,
+                "booking_date": bookingDate,
+                "total_amount": totalAmount,
+                "subsidy_amount": subsidyAmount
+            },
+            success:function(resonse){
+        
+                alert(resonse.message)
+                
+                get_booing_details()
+            }
+        })
+    }
+</script>
+
+
+{% endblock %}

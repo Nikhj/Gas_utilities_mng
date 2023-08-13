@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="container mt-5">
+        <form method="POST" action="" >
+            {% csrf_token %}
+            <!-- Distributor Information -->
+            <div class="form-row">
+            <div class="form-group col-md-4">
+                <label for="distributorName">Distributor Name</label>
+                <input type="text" class="form-control"  value="{{distributor_name}}" id="distributorName" name="distributorName">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="connectionNo">Connection No</label>
+                <input type="text" class="form-control" value="{{connection_no}}" id="connectionNo" name="connectionNo">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="bookingNo">Booking No</label>
+                <input type="text" class="form-control" value="{{booking_no}}" id="bookingNo" name="bookingNo">
+            </div>
+        </div>
+            <!-- Customer Information -->
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="firstName">First Name</label>
+                    <input type="text" class="form-control" value="{{first_name}}" id="firstName" name="firstName">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="lastName">Last Name</label>
+                    <input type="text" class="form-control" value="{{last_name}}" id="lastName" name="lastName">
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="total_amount">Total Amount</label>
+                    <input type="text" class="form-control" value="{{total_amount}}" id="total_amount" name="total_amount">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="subsidy_amount">Subsidy Amount</label>
+                    <input type="text" class="form-control" value="{{subsidy_amount}}" id="subsidy_amount" name="subsidy_amount">
+                </div>
+            </div>
+            
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="total_refills">Total Refills</label>
+                    <input type="text" class="form-control" value="{{total_refill}}" id="total_refills" name="total_refills">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="used_refills">Used Refills</label>
+                    <input type="text" class="form-control" value="{{used_refill}}" id="used_refills" name="used_refills">
+                </div>
+            </div>
+            
+
+            <!-- Booking Details -->
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="bookingDate">Booking Date</label>
+                    <input type="text" class="form-control" value="{{booking_date}}" id="bookingDate" name="bookingDate">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="status">Status</label>
+                    <select class="form-control" value="{{status}}" id="status" name="status">
+                        <option value="pending">Pending</option>
+                        <option value="approved">Approved</option>
+                        <option value="completed">Rejected</option>
+                    </select>
+                </div>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+
+</body>
+</html>

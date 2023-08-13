@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+  <style>
+    /* Style for the thumbnail image */
+    .thumbnail {
+        cursor: pointer;
+        transition: transform 0.2s;
+        max-width: 100%;
+        height: auto;
+    }
+
+    /* Enlarge the image on click */
+    .thumbnail.active {
+        transform: scale(1.2);
+    }
+
+    /* Style for the enlarged image in the modal */
+    #enlargedImg {
+        max-width: 100%;
+        height: auto;
+    }
+    </style>
+
+    <div class="container mt-5">
+        <form action="" method="POST">
+          {% csrf_token %}
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="connectionNo">Connection No</label>
+                <input type="text" class="form-control" id="connectionNo" value="{{connection_no}}" name="connection_no" /> 
+                
+              </div>
+              <div class="form-group col-md-6">
+                <label for="distributorName">Distributor Name</label>
+                <input type="text" class="form-control" id="distributorName" value="{{distributor_name}}" name="distributor_name" /> 
+                
+              </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="firstName">First Name</label>
+              <input type="text" class="form-control" id="firstName" value="{{first_name}}" name="first_name"  placeholder="First Name">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="lastName">Last Name</label>
+              <input type="text" class="form-control" id="lastName" value="{{last_name}}" name="last_name"  placeholder="Last Name">
+            </div>
+          </div>
+          <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="dob">Date of Birth</label>
+            <input type="text" class="form-control" id="dob" value="{{dob}}" name="dob"> 
+          </div>
+          </div>
+          <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="houseNo">House No./Flat/Building</label>
+            <input type="text" class="form-control" id="houseNo" value="{{house_no}}" name="house_no"  placeholder="House No.">
+          </div>
+
+          <div class="form-group col-md-6">
+            <label for="houseNo">Area</label>
+            <input type="text" class="form-control" id="houseNo" value="{{area}}" name="house_no"  placeholder="House No.">
+          </div>
+        </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="city">City</label>
+              <input type="text" class="form-control" id="city" value="{{city}}" name="city"  placeholder="City">
+            </div>
+            <div class="form-group col-md-4">
+              <label for="state">State</label>
+              <input type="text" class="form-control" id="state" value="{{state}}" name="state"  placeholder="State">
+            </div>
+            <div class="form-group col-md-2">
+              <label for="pinCode">Pin Code</label>
+              <input type="text" class="form-control" id="pinCode" value="{{pincode}}" name="pinCode"  placeholder="Pin Code">
+            </div>
+          </div>
+          <div class="form-row">
+          <div class="form-group col-md-6" >
+            <label for="phone">Phone</label>
+            <input type="tel" class="form-control" id="phone" value="{{phone_no}}" name="phone"  placeholder="Phone">
+          </div>
+          <div class="form-group col-md-6">
+            <label for="mobile">Mobile No.</label>
+            <input type="tel" class="form-control" id="mobile" value="{{mobile_no}}" name="mobile"  placeholder="Mobile No.">
+          </div>
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" value="{{email}}" name="email"  placeholder="Email">
+            
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="dob">Date of Birth</label>
+              <input type="text" class="form-control" id="dob" value="{{registration_date}}" name="dob"> 
+            </div>
+
+          <div class="form-group col-md-4">
+            <label for="distributorName">Status</label>
+            <select class="form-control" id="status"  name="status" > 
+              <option value="pending" selected>pending</option>
+              <option value="approved">approved</option>
+              <option value="rejected">rejected</option>
+              
+            </select>
+          </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-6" >
+              <label for="phone">Aadhar No.</label>
+              <input type="tel" class="form-control" id="phone" value="{{aadhar_no}}" name="phone"  placeholder="Phone">
+            </div>
+            <div class="col-md-3">
+                <img src="{{aadhar_no_img}}" alt="Image 1" class="thumbnail" onclick="openImage(this)">
+            </div>
+          </div>
+          <div class="form-row mt-2">
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+        
+        </div>
+        </div>
+        </form>
+        
+    </div>
+    <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <img src="" alt="Larger Image" id="enlargedImg" class="img-fluid">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openImage(thumbnail) {
+            var enlargedImg = document.getElementById("enlargedImg");
+            enlargedImg.src = thumbnail.src;
+            $("#imageModal").modal("show");
+        }
+    </script>
+</div>
+{% endblock %}

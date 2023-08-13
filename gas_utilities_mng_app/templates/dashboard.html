@@ -1,0 +1,198 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <style>
+    .data-container {
+      border: 1px solid #ccc;
+      padding: 20px;
+      margin: 20px;
+      border-radius: 5px;
+      background-color: #f8f9fa;
+    }
+    .data-item {
+        display: flex;
+      margin-bottom: 10px;
+    }
+    .data-label {
+      
+      font-weight: bold;
+    }
+    .data-value {
+      
+      margin-left: 4%;
+    }
+  </style>
+</head>
+<body>
+  <div class="container mt-5">
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <div class="{{ message.tags }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+  
+
+    <div class="data-container" id="main-div">
+        <div style="display: flex;">
+          <div class="data-item col-md-4 mb-6" >
+            <div class="data-label">Connection No:</div>
+            <div class="data-value" id="connectionNo"></div>
+        </div>
+        <div class="data-item col-md-4 mb-6" >
+            <div class="data-label">Distributor Name:</div>
+            <div class="data-value" id="distributorName"></div>
+        </div>
+        </div>
+
+    <div style="display: flex;">
+      <div class="data-item col-md-4 mb-4">
+        <div class="data-label">First Name:</div>
+        <div class="data-value" id="firstName"></div>
+      </div>
+      
+      <div class="data-item col-md-4">
+        <div class="data-label">Last Name:</div>
+        <div class="data-value" id="lastName"></div>
+      </div>
+      
+      <div class="data-item col-md-4">
+          <div class="data-label">Date of Birth:</div>
+          <div class="data-value" id="dob"></div>
+        </div>
+    </div>
+      
+    <div style="display:flex;">
+      <div class="data-item col-md-6 mb-4" >
+        <div class="data-label">House No./Flat:</div>
+        <div class="data-value" id="houseNo"></div>
+      </div>
+
+      <div class="data-item col-md-6 mb-4" >
+        <div class="data-label">Area:</div>
+        <div class="data-value" id="area"></div>
+      </div>
+    </div>
+      <div style="display:flex;">
+      <div class="data-item col-md-4">
+        <div class="data-label">City:</div>
+        <div class="data-value" id="city"></div>
+      </div>
+      
+      <div class="data-item col-md-4">
+        <div class="data-label">State:</div>
+        <div class="data-value" id="state"></div>
+      </div>
+      <div class="data-item col-md-4">
+        <div class="data-label">Pin Code:</div>
+        <div class="data-value" id="pinCode"></div>
+      
+    </div>
+    </div>  
+    
+    <div style="display: flex;">
+    <div class="data-item col-md-4 mb-4">
+        <div class="data-label">Phone:</div>
+        <div class="data-value" id="phone"></div>
+      </div>
+      
+      <div class="data-item col-md-4">
+        <div class="data-label">Mobile No.:</div>
+        <div class="data-value" id="mobile"></div>
+      </div>
+      <div class="data-item col-md-4">
+        <div class="data-label">Email:</div>
+        <div class="data-value" id="email"></div>
+      </div>
+    </div>
+
+
+    <div style="display:flex;">
+      <div class="data-item col-md-6 mb-4" >
+        <div class="data-label">Total Refills:</div>
+        <div class="data-value" id="totalRefills"></div>
+      </div>
+
+      <div class="data-item col-md-6 mb-4" >
+        <div class="data-label">Used Refills:</div>
+        <div class="data-value" id="usedRefills"></div>
+      </div>
+    </div>
+    </div>
+  </div>
+
+  <script>
+   
+    function displayFormData() {
+
+      $.ajax({ 
+              dataType: 'json',
+               type:'GET',
+               url:'{% url "fetch_dashboard_data" %}',
+               data : 
+                {},
+                
+               success:function(data){
+                if (data['status']=="Pending"){
+                  console.log("Pending data");
+                 
+                  var contentDiv = $("#main-div");
+                  var processingMessage = "Your request for connection is processing...";
+
+                 
+                  contentDiv.empty().text(processingMessage);
+
+
+
+                }
+                else if(data['status']=="NOT_EXIST"){
+                  var contentDiv = $("#main-div");
+                  var processingMessage = "Connection does not exists.";
+
+                 
+                  contentDiv.empty().text(processingMessage);
+                }
+                else{
+                  console.log("Approved data");
+                  document.getElementById('main-div').hidden=false;
+                  document.getElementById('distributorName').textContent = data['distributor_name'];
+                  document.getElementById('firstName').textContent = data['first_name'];
+                  document.getElementById('lastName').textContent = data['last_name'];
+                  document.getElementById('dob').textContent = data['dob'];
+                  document.getElementById('houseNo').textContent = data['house_no'];
+                  document.getElementById('area').textContent = data['area'];
+                  document.getElementById('city').textContent = data['city'];
+                  document.getElementById('state').textContent = data['state'];
+                  document.getElementById('pinCode').textContent = data['pincode'];
+                  document.getElementById('phone').textContent = data['phone_no'];
+                  document.getElementById('mobile').textContent = data['mobile_no'];
+                  document.getElementById('email').textContent = data['email'];
+                  document.getElementById('connectionNo').textContent = data['connection_no'];
+                  document.getElementById('totalRefills').textContent = data['total_refill'];
+                  document.getElementById('usedRefills').textContent = data['used_refill'];
+
+                }
+               
+                 
+               },
+                error: function () {
+                  console.log("Error while getting subject data");
+                }
+        
+             });
+
+      
+    }
+
+    // Call the displayFormData function when the page loads
+    $(document).ready(function() {
+      displayFormData();
+    })
+    
+  </script>
+{% endblock %}
+
